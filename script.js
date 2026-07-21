@@ -3,13 +3,29 @@
 // =========================================================
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// ----- Animated particle background (constellation) -----
+// ----- Animated space background: twinkling green/purple particles -----
 (function () {
   const canvas = document.getElementById("bgCanvas");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
-  const colors = ["#7a2bff", "#2b6bff", "#00d4ff", "#ff2d9b", "#ff7a1a"];
-  let w, h, dpr, particles, raf, running = true;
+  // green + purple lead, with a few cyan/white sparkles for depth
+  const palette = ["#22ff9c", "#22ff9c", "#4ade80", "#a855f7", "#a855f7", "#7c3aed", "#22d3ee", "#e9d5ff"];
+  let w, h, dpr, particles, raf, running = true, t = 0;
+
+  function make() {
+    const count = Math.min(120, Math.floor((innerWidth * innerHeight) / 13000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.28 * dpr,
+      vy: (Math.random() - 0.5) * 0.28 * dpr,
+      r: (Math.random() * 1.8 + 0.7) * dpr,
+      c: palette[(Math.random() * palette.length) | 0],
+      ph: Math.random() * Math.PI * 2,       // twinkle phase
+      tw: Math.random() * 0.05 + 0.015,      // twinkle speed
+      base: Math.random() * 0.4 + 0.45,      // base brightness
+    }));
+  }
 
   function size() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -17,30 +33,18 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
     h = canvas.height = Math.floor(innerHeight * dpr);
     canvas.style.width = innerWidth + "px";
     canvas.style.height = innerHeight + "px";
-    const count = Math.min(90, Math.floor((innerWidth * innerHeight) / 16000));
-    particles = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.35 * dpr,
-      vy: (Math.random() - 0.5) * 0.35 * dpr,
-      r: (Math.random() * 2 + 1.2) * dpr,
-      c: colors[(Math.random() * colors.length) | 0],
-    }));
+    make();
   }
 
   function draw() {
+    t++;
     ctx.clearRect(0, 0, w, h);
-    const linkDist = 130 * dpr;
+    const linkDist = 120 * dpr;
+
+    // faint connecting lines (no glow — keeps it cheap)
+    ctx.shadowBlur = 0;
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.c;
-      ctx.globalAlpha = 0.55;
-      ctx.fill();
       for (let j = i + 1; j < particles.length; j++) {
         const q = particles[j];
         const dx = p.x - q.x, dy = p.y - q.y;
@@ -50,23 +54,36 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
           ctx.strokeStyle = p.c;
-          ctx.globalAlpha = (1 - d / linkDist) * 0.18;
+          ctx.globalAlpha = (1 - d / linkDist) * 0.13;
           ctx.lineWidth = 1 * dpr;
           ctx.stroke();
         }
       }
     }
+
+    // glowing, flickering particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = w + 20; else if (p.x > w + 20) p.x = -20;
+      if (p.y < -20) p.y = h + 20; else if (p.y > h + 20) p.y = -20;
+      const flicker = p.base * (0.55 + 0.45 * Math.sin(t * p.tw + p.ph));
+      ctx.globalAlpha = Math.max(0, Math.min(1, flicker));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.c;
+      ctx.shadowColor = p.c;
+      ctx.shadowBlur = p.r * 4;
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
     ctx.globalAlpha = 1;
     if (running) raf = requestAnimationFrame(draw);
   }
 
   size();
-  if (reduceMotion) {
-    draw(); // one static frame, no loop
-  } else {
-    running = true;
-    draw();
-  }
+  if (reduceMotion) { running = false; draw(); } // one static frame, no loop
+  else { running = true; draw(); }
 
   let resizeT;
   addEventListener("resize", () => {
