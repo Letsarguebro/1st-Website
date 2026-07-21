@@ -3,6 +3,82 @@
 // =========================================================
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// ----- Animated particle background (constellation) -----
+(function () {
+  const canvas = document.getElementById("bgCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const colors = ["#7a2bff", "#2b6bff", "#00d4ff", "#ff2d9b", "#ff7a1a"];
+  let w, h, dpr, particles, raf, running = true;
+
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.width = Math.floor(innerWidth * dpr);
+    h = canvas.height = Math.floor(innerHeight * dpr);
+    canvas.style.width = innerWidth + "px";
+    canvas.style.height = innerHeight + "px";
+    const count = Math.min(90, Math.floor((innerWidth * innerHeight) / 16000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.35 * dpr,
+      vy: (Math.random() - 0.5) * 0.35 * dpr,
+      r: (Math.random() * 2 + 1.2) * dpr,
+      c: colors[(Math.random() * colors.length) | 0],
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const linkDist = 130 * dpr;
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.c;
+      ctx.globalAlpha = 0.55;
+      ctx.fill();
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d = Math.hypot(dx, dy);
+        if (d < linkDist) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = p.c;
+          ctx.globalAlpha = (1 - d / linkDist) * 0.18;
+          ctx.lineWidth = 1 * dpr;
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    if (running) raf = requestAnimationFrame(draw);
+  }
+
+  size();
+  if (reduceMotion) {
+    draw(); // one static frame, no loop
+  } else {
+    running = true;
+    draw();
+  }
+
+  let resizeT;
+  addEventListener("resize", () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(size, 200);
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { running = false; cancelAnimationFrame(raf); }
+    else if (!reduceMotion) { running = true; draw(); }
+  });
+})();
+
 // ----- Nav: solidify on scroll + scroll progress bar -----
 (function () {
   const nav = document.getElementById("nav");

@@ -30,15 +30,40 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  background: var(--bg);
 }
 
 body {
   font-family: var(--font);
   color: var(--ink);
-  background: var(--bg);
+  background: transparent;
   line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Animated background: aurora blobs + particle canvas ===== */
+body::before {
+  content: "";
+  position: fixed; inset: -25%;
+  z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--c-violet) 26%, transparent), transparent 42%),
+    radial-gradient(circle at 82% 16%, color-mix(in srgb, var(--c-pink) 22%, transparent), transparent 42%),
+    radial-gradient(circle at 65% 82%, color-mix(in srgb, var(--c-cyan) 26%, transparent), transparent 44%),
+    radial-gradient(circle at 12% 78%, color-mix(in srgb, var(--c-orange) 20%, transparent), transparent 42%);
+  filter: blur(48px);
+  animation: aurora 22s ease-in-out infinite alternate;
+}
+@keyframes aurora {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate3d(0, -3%, 0) scale(1.12) rotate(7deg); }
+}
+.bg-canvas {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: -1; pointer-events: none;
+  opacity: 0.9;
 }
 
 .grad-text {
@@ -110,9 +135,7 @@ body {
   display: grid; place-items: center; text-align: center;
   padding: 120px clamp(20px, 5vw, 40px) 80px;
   overflow: hidden;
-  background:
-    radial-gradient(60% 50% at 50% 0%, color-mix(in srgb, var(--c-cyan) 10%, transparent), transparent 70%),
-    var(--bg);
+  background: transparent;
 }
 .hero__orbs { position: absolute; inset: 0; z-index: 0; }
 .orb { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.7; will-change: transform; }
@@ -145,7 +168,7 @@ body {
 /* ===== BIG STATEMENT ===== */
 .statement {
   min-height: 92vh; display: grid; place-items: center; text-align: center;
-  padding: 100px clamp(20px, 5vw, 40px); background: var(--bg-2);
+  padding: 100px clamp(20px, 5vw, 40px); background: transparent;
 }
 .statement__text {
   font-size: clamp(2rem, 6.5vw, 5rem); line-height: 1.06; letter-spacing: -0.035em; font-weight: 800;
@@ -212,7 +235,7 @@ body {
 @keyframes scrollx { to { transform: translateX(-50%); } }
 
 /* ===== CONTACT ===== */
-.contact { padding: 130px clamp(20px, 5vw, 40px); background: var(--bg-2); }
+.contact { padding: 130px clamp(20px, 5vw, 40px); background: transparent; }
 .contact__inner { max-width: 640px; margin: 0 auto; text-align: center; }
 .contact__title { font-size: clamp(2.4rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.04em; font-weight: 800; }
 .contact__sub { color: var(--ink-soft); font-size: 1.15rem; margin: 22px 0 40px; }
