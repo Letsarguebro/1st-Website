@@ -271,3 +271,140 @@ body {
   *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }
   .fade-up, .reveal-scale, .reveal-line { opacity: 1 !important; transform: none !important; }
 }
+
+/* =========================================================
+   Affiliate / gaming-gear components
+   ========================================================= */
+.hero__disclosure { margin-top: 22px; font-size: 0.82rem; color: var(--ink-soft); opacity: 0.85; }
+.btn--sm { padding: 11px 20px; font-size: 0.92rem; }
+.card__link { font-weight: 700; color: var(--ink); }
+
+/* Category cards as links */
+a.card { text-decoration: none; color: inherit; }
+
+/* ----- This month's picks ----- */
+.picks { max-width: var(--maxw); margin: 0 auto; padding: 110px clamp(20px, 5vw, 40px); }
+.picks__head { text-align: center; margin-bottom: 54px; }
+.picks__head .section-title { margin-left: auto; margin-right: auto; }
+.picks__note { color: var(--ink-soft); font-size: 0.95rem; margin-top: 16px; }
+.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.product {
+  position: relative; border: 1px solid var(--line); border-radius: 24px; overflow: hidden;
+  background: var(--bg); display: flex; flex-direction: column;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.product:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(20, 10, 60, 0.35); }
+.product__badge {
+  position: absolute; top: 16px; left: 16px; z-index: 2;
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: #fff; background: var(--c-violet); padding: 6px 12px; border-radius: 999px;
+}
+.product__badge--alt { background: var(--c-pink); }
+.product__badge--alt2 { background: var(--c-blue); }
+.product__img {
+  height: 170px; display: grid; place-items: center; font-size: 4rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c-violet) 12%, #fff), color-mix(in srgb, var(--c-cyan) 14%, #fff));
+}
+.product__body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.product__name { font-size: 1.3rem; letter-spacing: -0.02em; margin-bottom: 8px; }
+.product__rating { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.stars { color: var(--c-orange); letter-spacing: 2px; font-size: 1rem; }
+.rating-num { color: var(--ink-soft); font-size: 0.9rem; font-weight: 600; }
+.product__desc { color: var(--ink-soft); font-size: 0.97rem; margin-bottom: 20px; flex: 1; }
+.product__meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.product__price { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+
+/* ----- Signup ----- */
+.signup__form { max-width: 460px; margin: 0 auto; display: grid; gap: 14px; }
+
+/* ----- Footer stacked ----- */
+.footer--stack { flex-direction: column; align-items: stretch; gap: 20px; }
+.footer__disclosure { color: var(--ink-soft); font-size: 0.86rem; line-height: 1.6; max-width: 900px; }
+.footer__row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+/* =========================================================
+   Roundup / article page
+   ========================================================= */
+.article { max-width: 860px; margin: 0 auto; padding: 120px clamp(20px, 5vw, 40px) 60px; }
+.article__crumb { display: inline-block; color: var(--c-violet); font-weight: 600; text-decoration: none; margin-bottom: 22px; }
+.article__title { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.04; letter-spacing: -0.035em; font-weight: 800; }
+.article__meta { color: var(--ink-soft); font-size: 0.92rem; margin-top: 16px; }
+.article__lede { font-size: clamp(1.1rem, 2.2vw, 1.35rem); color: var(--ink-soft); margin-top: 20px; line-height: 1.55; }
+.disclosure-banner {
+  margin-top: 28px; padding: 16px 20px; border-radius: 16px; font-size: 0.9rem; line-height: 1.55;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--c-cyan) 9%, #fff);
+  border: 1px solid color-mix(in srgb, var(--c-blue) 22%, var(--line));
+}
+
+/* Quick picks */
+.quickpicks { margin: 56px 0; }
+.quickpicks__title { font-size: 1.3rem; margin-bottom: 18px; letter-spacing: -0.02em; }
+.quickpicks__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.quickpick {
+  display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit;
+  padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2);
+  transition: transform 0.25s var(--ease), border-color 0.25s;
+}
+.quickpick:hover { transform: translateY(-3px); border-color: var(--c-violet); }
+.quickpick__tag { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-violet); }
+.quickpick__name { font-weight: 700; letter-spacing: -0.01em; }
+.quickpick__price { font-weight: 800; font-size: 1.15rem; }
+
+/* Ranked list */
+.ranked { display: grid; gap: 26px; margin: 40px 0 64px; }
+.rank {
+  position: relative; display: grid; grid-template-columns: 150px 1fr; gap: 0;
+  border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: var(--bg);
+}
+.rank__num {
+  position: absolute; top: 14px; left: 14px; z-index: 3;
+  width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 800; color: #fff; background: var(--grad-brand);
+}
+.rank__img {
+  grid-column: 1; display: grid; place-items: center; font-size: 4rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c-violet) 14%, #fff), color-mix(in srgb, var(--c-pink) 12%, #fff));
+}
+.rank__body { grid-column: 2; padding: 26px; }
+.rank__badge {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: #fff; background: var(--c-violet); padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
+}
+.rank__badge--alt { background: var(--c-pink); }
+.rank__badge--alt2 { background: var(--c-blue); }
+.rank__name { font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 10px; }
+.rank__desc { color: var(--ink-soft); margin: 14px 0; }
+.rank__proscons { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0 22px; }
+.rank__proscons ul { list-style: none; display: grid; gap: 7px; }
+.rank__proscons li { font-size: 0.94rem; padding-left: 24px; position: relative; }
+.pros li::before { content: "✓"; position: absolute; left: 0; color: #16a34a; font-weight: 800; }
+.cons li::before { content: "✕"; position: absolute; left: 0; color: #ef4444; font-weight: 800; }
+.rank__cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+/* Buying guide + FAQ */
+.guide { margin: 64px 0; }
+.guide__title { font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: -0.03em; font-weight: 800; margin-bottom: 24px; }
+.guide__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.guide__item { padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); }
+.guide__item h4 { font-size: 1.1rem; margin-bottom: 8px; }
+.guide__item p { color: var(--ink-soft); font-size: 0.96rem; }
+.faq { margin: 64px 0 20px; }
+.faq__item { border: 1px solid var(--line); border-radius: 16px; padding: 4px 20px; margin-bottom: 12px; background: var(--bg); }
+.faq__item summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; }
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after { content: "+"; float: right; color: var(--c-violet); font-weight: 800; }
+.faq__item[open] summary::after { content: "–"; }
+.faq__item p { color: var(--ink-soft); padding: 0 0 16px; }
+
+@media (max-width: 860px) {
+  .products { grid-template-columns: 1fr; }
+  .quickpicks__grid { grid-template-columns: 1fr; }
+  .guide__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .rank { grid-template-columns: 1fr; }
+  .rank__img { grid-column: 1; height: 140px; }
+  .rank__body { grid-column: 1; }
+  .rank__proscons { grid-template-columns: 1fr; }
+}

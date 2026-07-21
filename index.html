@@ -3,26 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Bright. Bold. Beautiful.</title>
-  <meta name="description" content="The personal website of Your Name — bright, modern, and made to move." />
+  <title>LootLevel — Gaming Gear, Ranked.</title>
+  <meta name="description" content="Honest, no-nonsense rankings of the best gaming gear — headsets, keyboards, mice, chairs and more. So you buy right the first time." />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
 </head>
 <body>
-  <!-- Progress bar -->
   <div class="scroll-progress" id="progress"></div>
 
-  <!-- Nav -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#top" class="nav__logo">YN<span>*</span></a>
+      <a href="index.html" class="nav__logo">Loot<span>Level</span></a>
       <nav class="nav__links">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#values">Values</a>
-        <a href="#contact">Contact</a>
+        <a href="best-gaming-headsets.html">Headsets</a>
+        <a href="#categories">Keyboards</a>
+        <a href="#categories">Mice</a>
+        <a href="#categories">Chairs</a>
+        <a href="#guide">Guides</a>
       </nav>
-      <a href="#contact" class="nav__cta">Say hello</a>
+      <a href="#picks" class="nav__cta">Top picks</a>
     </div>
   </header>
 
@@ -36,78 +35,150 @@
         <span class="orb orb--4" data-parallax="0.22"></span>
       </div>
       <div class="hero__content">
-        <p class="hero__kicker fade-up">✦ Welcome to my corner of the internet</p>
+        <p class="hero__kicker fade-up">🎮 Gaming gear, tested & ranked</p>
         <h1 class="hero__title">
-          <span class="line fade-up" style="--d:.05s">Hi, I'm</span>
-          <span class="line grad-text fade-up" style="--d:.15s">Your Name.</span>
-          <span class="line fade-up" style="--d:.25s">I make bright ideas.</span>
+          <span class="line fade-up" style="--d:.05s">Buy the</span>
+          <span class="line grad-text fade-up" style="--d:.15s">right gear</span>
+          <span class="line fade-up" style="--d:.25s">the first time.</span>
         </h1>
-        <p class="hero__sub fade-up" style="--d:.35s">Designer, builder, and endlessly curious human. Scroll to take a look around.</p>
+        <p class="hero__sub fade-up" style="--d:.35s">No fluff, no paid rankings — just clear, honest picks for the gear that actually wins. Find your next upgrade in minutes.</p>
         <div class="hero__cta fade-up" style="--d:.45s">
-          <a href="#work" class="btn btn--solid">See my work</a>
-          <a href="#contact" class="btn btn--outline">Get in touch</a>
+          <a href="#picks" class="btn btn--solid">See this month's top picks</a>
+          <a href="best-gaming-headsets.html" class="btn btn--outline">Best headsets →</a>
         </div>
+        <p class="hero__disclosure fade-up" style="--d:.55s">As an Amazon Associate, LootLevel earns from qualifying purchases. It never costs you extra.</p>
       </div>
       <div class="hero__scroll" aria-hidden="true"><span></span></div>
     </section>
 
-    <!-- BIG STATEMENT (Apple-style pinned scale reveal) -->
-    <section class="statement" id="about">
+    <!-- CATEGORIES -->
+    <section class="work" id="categories">
+      <div class="work__head">
+        <p class="eyebrow fade-up">Browse by category</p>
+        <h2 class="section-title fade-up" style="--d:.1s">What are you<br />upgrading today?</h2>
+      </div>
+      <div class="cards">
+        <a href="best-gaming-headsets.html" class="card card--a tilt fade-up">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🎧</span>
+          <h3>Headsets</h3>
+          <p>Crystal comms and immersive sound, ranked for every budget.</p>
+          <span class="card__link">See the top 5 →</span>
+        </a>
+        <a href="#picks" class="card card--b tilt fade-up" style="--d:.1s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">⌨️</span>
+          <h3>Keyboards</h3>
+          <p>Mechanical, hot-swap, and low-profile boards worth the desk space.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--c tilt fade-up" style="--d:.2s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🖱️</span>
+          <h3>Mice</h3>
+          <p>Featherweight, high-DPI, and wireless mice that keep up with you.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--d tilt fade-up" style="--d:.3s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🪑</span>
+          <h3>Chairs</h3>
+          <p>All-day comfort that saves your back during marathon sessions.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--a tilt fade-up">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🖥️</span>
+          <h3>Monitors</h3>
+          <p>High-refresh panels that turn reaction time into an advantage.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--c tilt fade-up" style="--d:.1s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🎮</span>
+          <h3>Controllers</h3>
+          <p>Pro-grade pads with paddles, triggers, and zero input lag.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="statement">
       <div class="statement__inner">
         <h2 class="statement__text reveal-scale">
-          Built to be <em class="grad-text">bold</em>, designed to feel <em class="grad-text-2">effortless</em>.
+          We rank on <em class="grad-text">performance</em>, not on who <em class="grad-text-2">pays the most</em>.
         </h2>
       </div>
     </section>
 
-    <!-- WORK / FEATURE CARDS -->
-    <section class="work" id="work">
-      <div class="work__head">
-        <p class="eyebrow fade-up">Selected work</p>
-        <h2 class="section-title fade-up" style="--d:.1s">Things I've<br />poured color into.</h2>
+    <!-- THIS MONTH'S TOP PICKS -->
+    <section class="picks" id="picks">
+      <div class="picks__head">
+        <p class="eyebrow fade-up">Editor's choice · Updated monthly</p>
+        <h2 class="section-title fade-up" style="--d:.1s">This month's top picks</h2>
+        <p class="picks__note fade-up" style="--d:.2s">Prices update on the retailer's site. Links are affiliate links — thanks for supporting LootLevel.</p>
       </div>
-      <div class="cards">
-        <article class="card card--a tilt fade-up">
-          <div class="card__glow"></div>
-          <span class="card__emoji">🚀</span>
-          <h3>Launchpad</h3>
-          <p>A product landing experience with playful motion and a punchy palette.</p>
-          <a href="#" class="card__link">Explore →</a>
+
+      <div class="products">
+        <!-- PRODUCT CARD (duplicate + edit for each pick) -->
+        <article class="product fade-up">
+          <span class="product__badge">Best overall</span>
+          <div class="product__img">🎧</div>
+          <div class="product__body">
+            <h3 class="product__name">Example Headset Pro X</h3>
+            <div class="product__rating"><span class="stars">★★★★★</span><span class="rating-num">4.8</span></div>
+            <p class="product__desc">A well-rounded wireless headset with great mic clarity and all-day comfort. Swap this for a real product you recommend.</p>
+            <div class="product__meta">
+              <span class="product__price">$129</span>
+              <!-- TODO: paste your Amazon Associates link in href below -->
+              <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+            </div>
+          </div>
         </article>
-        <article class="card card--b tilt fade-up" style="--d:.1s">
-          <div class="card__glow"></div>
-          <span class="card__emoji">🎨</span>
-          <h3>Palette</h3>
-          <p>A design system exploring vivid gradients and accessible contrast.</p>
-          <a href="#" class="card__link">Explore →</a>
+
+        <article class="product fade-up" style="--d:.1s">
+          <span class="product__badge product__badge--alt">Best budget</span>
+          <div class="product__img">🖱️</div>
+          <div class="product__body">
+            <h3 class="product__name">Example Lightweight Mouse</h3>
+            <div class="product__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5</span></div>
+            <p class="product__desc">Featherweight, accurate, and cheap enough to be a no-brainer. Replace with your actual budget pick.</p>
+            <div class="product__meta">
+              <span class="product__price">$39</span>
+              <!-- TODO: paste your Amazon Associates link in href below -->
+              <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+            </div>
+          </div>
         </article>
-        <article class="card card--c tilt fade-up" style="--d:.2s">
-          <div class="card__glow"></div>
-          <span class="card__emoji">⚡</span>
-          <h3>Velocity</h3>
-          <p>A fast, buttery-smooth interface with scroll-driven storytelling.</p>
-          <a href="#" class="card__link">Explore →</a>
-        </article>
-        <article class="card card--d tilt fade-up" style="--d:.3s">
-          <div class="card__glow"></div>
-          <span class="card__emoji">🌈</span>
-          <h3>Spectrum</h3>
-          <p>An interactive gallery that shifts color as you move through it.</p>
-          <a href="#" class="card__link">Explore →</a>
+
+        <article class="product fade-up" style="--d:.2s">
+          <span class="product__badge product__badge--alt2">Best keyboard</span>
+          <div class="product__img">⌨️</div>
+          <div class="product__body">
+            <h3 class="product__name">Example Mechanical Board</h3>
+            <div class="product__rating"><span class="stars">★★★★★</span><span class="rating-num">4.7</span></div>
+            <p class="product__desc">Hot-swap switches, solid build, and a price that punches above its weight. Your call on the real one.</p>
+            <div class="product__meta">
+              <span class="product__price">$89</span>
+              <!-- TODO: paste your Amazon Associates link in href below -->
+              <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+            </div>
+          </div>
         </article>
       </div>
     </section>
 
-    <!-- STICKY COLOR-SHIFT VALUES -->
-    <section class="values" id="values">
+    <!-- WHY TRUST / GUIDE -->
+    <section class="values" id="guide">
       <div class="values__sticky">
-        <div class="values__label fade-up">How I work</div>
+        <div class="values__label fade-up">Why trust LootLevel</div>
         <ul class="values__list">
-          <li class="value reveal-line"><span>01</span> Clarity over clutter.</li>
-          <li class="value reveal-line"><span>02</span> Motion with meaning.</li>
-          <li class="value reveal-line"><span>03</span> Color, used with courage.</li>
-          <li class="value reveal-line"><span>04</span> Fast, always.</li>
-          <li class="value reveal-line"><span>05</span> Delight in the details.</li>
+          <li class="value reveal-line"><span>01</span> Ranked on real performance.</li>
+          <li class="value reveal-line"><span>02</span> Every budget covered.</li>
+          <li class="value reveal-line"><span>03</span> Updated as prices change.</li>
+          <li class="value reveal-line"><span>04</span> Honest pros &amp; cons.</li>
+          <li class="value reveal-line"><span>05</span> No pay-to-win rankings.</li>
         </ul>
       </div>
     </section>
@@ -115,45 +186,36 @@
     <!-- MARQUEE -->
     <section class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦ DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦</span>
-        <span>DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦ DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦</span>
+        <span>HEADSETS ✦ KEYBOARDS ✦ MICE ✦ CHAIRS ✦ MONITORS ✦ CONTROLLERS ✦</span>
+        <span>HEADSETS ✦ KEYBOARDS ✦ MICE ✦ CHAIRS ✦ MONITORS ✦ CONTROLLERS ✦</span>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="contact" id="contact">
+    <!-- EMAIL CAPTURE -->
+    <section class="contact" id="signup">
       <div class="contact__inner">
-        <h2 class="contact__title reveal-scale">Let's make<br /><span class="grad-text">something bright.</span></h2>
-        <p class="contact__sub fade-up">Have an idea, a project, or just want to say hi? I'd love to hear from you.</p>
-        <form class="contact__form fade-up" id="contactForm" novalidate>
-          <div class="field">
-            <input type="text" id="name" name="name" placeholder=" " required />
-            <label for="name">Your name</label>
-          </div>
-          <div class="field">
+        <h2 class="contact__title reveal-scale">Get the<br /><span class="grad-text">weekly deal drop.</span></h2>
+        <p class="contact__sub fade-up">The best gaming-gear deals and new rankings, once a week. No spam, ever.</p>
+        <form class="signup__form fade-up" id="signupForm" novalidate>
+          <div class="field field--full">
             <input type="email" id="email" name="email" placeholder=" " required />
             <label for="email">Your email</label>
           </div>
-          <div class="field field--full">
-            <textarea id="message" name="message" rows="3" placeholder=" " required></textarea>
-            <label for="message">Your message</label>
-          </div>
-          <button type="submit" class="btn btn--solid btn--full">Send it my way</button>
+          <button type="submit" class="btn btn--solid btn--full">Send me the deals</button>
           <p class="contact__note" id="formNote" role="status"></p>
         </form>
-        <div class="contact__socials">
-          <a href="#">✉️ hello@yourname.com</a>
-          <a href="#">GitHub</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Twitter</a>
-        </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>© <span id="year"></span> Your Name — made with color & care.</p>
-    <a href="#top" class="footer__top">Back to top ↑</a>
+  <footer class="footer footer--stack">
+    <p class="footer__disclosure">
+      <strong>Affiliate disclosure:</strong> LootLevel is reader-supported. When you buy through links on our site, we may earn a commission as an Amazon Associate and through other affiliate programs — at no extra cost to you. This never affects our rankings.
+    </p>
+    <div class="footer__row">
+      <p>© <span id="year"></span> LootLevel — gaming gear, ranked.</p>
+      <a href="#top" class="footer__top">Back to top ↑</a>
+    </div>
   </footer>
 
   <script src="script.js"></script>

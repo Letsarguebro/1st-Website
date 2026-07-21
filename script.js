@@ -84,22 +84,20 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 
 // ----- Contact form (client-side validation demo) -----
 (function () {
-  const form = document.getElementById("contactForm");
+  const form = document.getElementById("signupForm");
   const note = document.getElementById("formNote");
   if (!form) return;
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const name = form.name.value.trim();
     const email = form.email.value.trim();
-    const message = form.message.value.trim();
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    if (!name || !email || !message) return show("Please fill in all fields.", "error");
     if (!emailOk) return show("Please enter a valid email address.", "error");
 
-    // Front-end demo only. Connect Formspree / Netlify Forms / your API to send.
-    show(`Thanks, ${name}! This is a demo form — connect a backend to send for real.`, "success");
+    // Front-end demo only. Connect an email service (Mailchimp, ConvertKit,
+    // Beehiiv, Buttondown) or Formspree/Netlify Forms to actually collect signups.
+    show("You're on the list! (Demo — connect an email service to store signups.)", "success");
     form.reset();
   });
 
@@ -110,4 +108,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 })();
 
 // ----- Footer year -----
-document.getElementById("year").textContent = new Date().getFullYear();
+(function () {
+  const y = document.getElementById("year");
+  if (y) y.textContent = new Date().getFullYear();
+})();
