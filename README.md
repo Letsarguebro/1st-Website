@@ -46,3 +46,5 @@ Everything is placeholder content, ready to customize:
 Push to GitHub and enable **GitHub Pages** (Settings → Pages → deploy from
 branch), or drag the folder onto [Netlify](https://netlify.com) /
 [Vercel](https://vercel.com). It works anywhere static files are served.
+
+<!-- deploy check: 2026-07-21T16:11:41Z -->
