@@ -13,17 +13,17 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
   let w, h, dpr, particles, raf, running = true, t = 0;
 
   function make() {
-    const count = Math.min(120, Math.floor((innerWidth * innerHeight) / 13000));
+    const count = Math.min(200, Math.floor((innerWidth * innerHeight) / 8500));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
       vx: (Math.random() - 0.5) * 0.28 * dpr,
       vy: (Math.random() - 0.5) * 0.28 * dpr,
-      r: (Math.random() * 1.8 + 0.7) * dpr,
+      r: (Math.random() * 2 + 0.9) * dpr,
       c: palette[(Math.random() * palette.length) | 0],
       ph: Math.random() * Math.PI * 2,       // twinkle phase
       tw: Math.random() * 0.05 + 0.015,      // twinkle speed
-      base: Math.random() * 0.4 + 0.45,      // base brightness
+      base: Math.random() * 0.35 + 0.62,     // base brightness (brighter)
     }));
   }
 
@@ -67,13 +67,13 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
       p.x += p.vx; p.y += p.vy;
       if (p.x < -20) p.x = w + 20; else if (p.x > w + 20) p.x = -20;
       if (p.y < -20) p.y = h + 20; else if (p.y > h + 20) p.y = -20;
-      const flicker = p.base * (0.55 + 0.45 * Math.sin(t * p.tw + p.ph));
+      const flicker = p.base * (0.68 + 0.32 * Math.sin(t * p.tw + p.ph));
       ctx.globalAlpha = Math.max(0, Math.min(1, flicker));
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = p.c;
       ctx.shadowColor = p.c;
-      ctx.shadowBlur = p.r * 4;
+      ctx.shadowBlur = p.r * 5.5;
       ctx.fill();
     }
     ctx.shadowBlur = 0;

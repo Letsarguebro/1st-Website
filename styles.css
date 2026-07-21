@@ -3,10 +3,10 @@
    ========================================================= */
 :root {
   /* Deep-space base */
-  --bg: #05060e;
-  --bg-2: #0a0c1a;
-  --surface: #0e1022;
-  --surface-2: #141733;
+  --bg: #010207;
+  --bg-2: #05060f;
+  --surface: #0a0b1a;
+  --surface-2: #101227;
   --ink: #eaf0ff;
   --ink-soft: #99a1c8;
   --line: #23274a;
@@ -60,7 +60,7 @@ body::before {
     radial-gradient(circle at 68% 84%, color-mix(in srgb, var(--c-violet) 42%, transparent), transparent 44%),
     radial-gradient(circle at 14% 80%, color-mix(in srgb, var(--c-green-2) 26%, transparent), transparent 42%);
   filter: blur(70px) saturate(120%);
-  opacity: 0.75;
+  opacity: 0.58;
   animation: aurora 26s ease-in-out infinite alternate;
 }
 @keyframes aurora {
@@ -81,8 +81,8 @@ body::after {
     radial-gradient(1px 1px at 86% 55%, rgba(180,255,220,0.7), transparent),
     radial-gradient(1.2px 1.2px at 55% 88%, rgba(255,255,255,0.7), transparent),
     radial-gradient(1px 1px at 33% 90%, rgba(210,180,255,0.7), transparent),
-    radial-gradient(ellipse 120% 80% at 50% 0%, transparent 55%, rgba(0,0,0,0.55) 100%);
-  opacity: 0.9;
+    radial-gradient(ellipse 120% 80% at 50% 0%, transparent 50%, rgba(0,0,0,0.75) 100%);
+  opacity: 0.95;
 }
 .bg-canvas {
   position: fixed; inset: 0;
@@ -125,7 +125,10 @@ body::after {
   max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px);
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
 }
-.nav__logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em; }
+.nav__logo {
+  font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;
+  background: var(--grad-hot); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
 .nav__logo span {
   background: var(--grad-hot); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
