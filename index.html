@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Personal Website</title>
+  <meta name="description" content="The personal website and portfolio of Your Name." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋</text></svg>" />
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="#home" class="nav__logo">YN<span>.</span></a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <span class="theme-toggle__icon">🌙</span>
+        </button>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero section" id="home">
+      <div class="container hero__inner">
+        <p class="hero__eyebrow reveal">👋 Hi there, welcome to my site</p>
+        <h1 class="hero__title reveal">I'm <span class="grad">Your Name</span>,<br />I build things for the web.</h1>
+        <p class="hero__subtitle reveal">A short one-liner about who you are and what you do. Designer, developer, student, creator — make it yours.</p>
+        <div class="hero__cta reveal">
+          <a href="#projects" class="btn btn--primary">View my work</a>
+          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero__scroll">
+        <span>Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section about" id="about">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="section__tag">01 — About</span>
+          <h2 class="section__title">A little about me</h2>
+        </div>
+        <div class="about__grid">
+          <div class="about__text reveal">
+            <p>Write a couple of sentences about yourself here. What are you passionate about? What are you working towards? Keep it friendly and genuine — this is where visitors get to know you.</p>
+            <p>You can talk about your background, your interests, or what you're learning right now. This is your space.</p>
+            <ul class="about__skills">
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+              <li>Design</li>
+              <li>Curiosity</li>
+            </ul>
+          </div>
+          <div class="about__card reveal">
+            <div class="about__avatar">YN</div>
+            <h3>Your Name</h3>
+            <p class="about__role">Your Title / Role</p>
+            <div class="about__stats">
+              <div><strong>10+</strong><span>Projects</span></div>
+              <div><strong>3</strong><span>Years</span></div>
+              <div><strong>∞</strong><span>Ideas</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section projects" id="projects">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="section__tag">02 — Work</span>
+          <h2 class="section__title">Featured projects</h2>
+        </div>
+        <div class="projects__grid">
+          <article class="project reveal">
+            <div class="project__thumb" style="--c1:#6366f1;--c2:#8b5cf6;">🚀</div>
+            <div class="project__body">
+              <h3>Project One</h3>
+              <p>A short description of what this project is and why it's interesting. Swap this out for something real.</p>
+              <div class="project__tags"><span>HTML</span><span>CSS</span></div>
+              <a href="#" class="project__link">View project →</a>
+            </div>
+          </article>
+          <article class="project reveal">
+            <div class="project__thumb" style="--c1:#ec4899;--c2:#f43f5e;">🎨</div>
+            <div class="project__body">
+              <h3>Project Two</h3>
+              <p>Describe another thing you built or worked on. Add a link that points to a live demo or repo.</p>
+              <div class="project__tags"><span>Design</span><span>JS</span></div>
+              <a href="#" class="project__link">View project →</a>
+            </div>
+          </article>
+          <article class="project reveal">
+            <div class="project__thumb" style="--c1:#14b8a6;--c2:#22c55e;">⚡</div>
+            <div class="project__body">
+              <h3>Project Three</h3>
+              <p>One more highlight. Show off the range of things you can do with a variety of projects.</p>
+              <div class="project__tags"><span>JS</span><span>API</span></div>
+              <a href="#" class="project__link">View project →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="section__tag">03 — Contact</span>
+          <h2 class="section__title">Let's work together</h2>
+        </div>
+        <div class="contact__inner reveal">
+          <p class="contact__lead">Have a question or want to say hi? Drop a message and I'll get back to you.</p>
+          <form class="contact__form" id="contactForm" novalidate>
+            <div class="field">
+              <input type="text" id="name" name="name" placeholder=" " required />
+              <label for="name">Your name</label>
+            </div>
+            <div class="field">
+              <input type="email" id="email" name="email" placeholder=" " required />
+              <label for="email">Your email</label>
+            </div>
+            <div class="field">
+              <textarea id="message" name="message" rows="4" placeholder=" " required></textarea>
+              <label for="message">Your message</label>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Send message</button>
+            <p class="contact__note" id="formNote" role="status"></p>
+          </form>
+          <div class="contact__socials">
+            <a href="#" aria-label="Email">✉️ hello@yourname.com</a>
+            <a href="#" aria-label="GitHub">GitHub</a>
+            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Your Name. Built with care.</p>
+      <a href="#home" class="footer__top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
