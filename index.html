@@ -3,164 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Personal Website</title>
-  <meta name="description" content="The personal website and portfolio of Your Name." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <title>Your Name — Bright. Bold. Beautiful.</title>
+  <meta name="description" content="The personal website of Your Name — bright, modern, and made to move." />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" />
 </head>
 <body>
-  <!-- Navigation -->
+  <!-- Progress bar -->
+  <div class="scroll-progress" id="progress"></div>
+
+  <!-- Nav -->
   <header class="nav" id="nav">
-    <div class="nav__inner container">
-      <a href="#home" class="nav__logo">YN<span>.</span></a>
-      <nav class="nav__links" id="navLinks">
-        <a href="#home">Home</a>
+    <div class="nav__inner">
+      <a href="#top" class="nav__logo">YN<span>*</span></a>
+      <nav class="nav__links">
         <a href="#about">About</a>
-        <a href="#projects">Projects</a>
+        <a href="#work">Work</a>
+        <a href="#values">Values</a>
         <a href="#contact">Contact</a>
       </nav>
-      <div class="nav__actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-          <span class="theme-toggle__icon">🌙</span>
-        </button>
-        <button class="nav__burger" id="navBurger" aria-label="Open menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+      <a href="#contact" class="nav__cta">Say hello</a>
     </div>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero section" id="home">
-      <div class="container hero__inner">
-        <p class="hero__eyebrow reveal">👋 Hi there, welcome to my site</p>
-        <h1 class="hero__title reveal">I'm <span class="grad">Your Name</span>,<br />I build things for the web.</h1>
-        <p class="hero__subtitle reveal">A short one-liner about who you are and what you do. Designer, developer, student, creator — make it yours.</p>
-        <div class="hero__cta reveal">
-          <a href="#projects" class="btn btn--primary">View my work</a>
-          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__orbs" aria-hidden="true">
+        <span class="orb orb--1" data-parallax="0.10"></span>
+        <span class="orb orb--2" data-parallax="0.18"></span>
+        <span class="orb orb--3" data-parallax="0.06"></span>
+        <span class="orb orb--4" data-parallax="0.22"></span>
+      </div>
+      <div class="hero__content">
+        <p class="hero__kicker fade-up">✦ Welcome to my corner of the internet</p>
+        <h1 class="hero__title">
+          <span class="line fade-up" style="--d:.05s">Hi, I'm</span>
+          <span class="line grad-text fade-up" style="--d:.15s">Your Name.</span>
+          <span class="line fade-up" style="--d:.25s">I make bright ideas.</span>
+        </h1>
+        <p class="hero__sub fade-up" style="--d:.35s">Designer, builder, and endlessly curious human. Scroll to take a look around.</p>
+        <div class="hero__cta fade-up" style="--d:.45s">
+          <a href="#work" class="btn btn--solid">See my work</a>
+          <a href="#contact" class="btn btn--outline">Get in touch</a>
         </div>
       </div>
-      <div class="hero__scroll">
-        <span>Scroll</span>
-        <div class="hero__scroll-line"></div>
+      <div class="hero__scroll" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- BIG STATEMENT (Apple-style pinned scale reveal) -->
+    <section class="statement" id="about">
+      <div class="statement__inner">
+        <h2 class="statement__text reveal-scale">
+          Built to be <em class="grad-text">bold</em>, designed to feel <em class="grad-text-2">effortless</em>.
+        </h2>
       </div>
     </section>
 
-    <!-- About -->
-    <section class="section about" id="about">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__tag">01 — About</span>
-          <h2 class="section__title">A little about me</h2>
-        </div>
-        <div class="about__grid">
-          <div class="about__text reveal">
-            <p>Write a couple of sentences about yourself here. What are you passionate about? What are you working towards? Keep it friendly and genuine — this is where visitors get to know you.</p>
-            <p>You can talk about your background, your interests, or what you're learning right now. This is your space.</p>
-            <ul class="about__skills">
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JavaScript</li>
-              <li>Design</li>
-              <li>Curiosity</li>
-            </ul>
-          </div>
-          <div class="about__card reveal">
-            <div class="about__avatar">YN</div>
-            <h3>Your Name</h3>
-            <p class="about__role">Your Title / Role</p>
-            <div class="about__stats">
-              <div><strong>10+</strong><span>Projects</span></div>
-              <div><strong>3</strong><span>Years</span></div>
-              <div><strong>∞</strong><span>Ideas</span></div>
-            </div>
-          </div>
-        </div>
+    <!-- WORK / FEATURE CARDS -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <p class="eyebrow fade-up">Selected work</p>
+        <h2 class="section-title fade-up" style="--d:.1s">Things I've<br />poured color into.</h2>
+      </div>
+      <div class="cards">
+        <article class="card card--a tilt fade-up">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🚀</span>
+          <h3>Launchpad</h3>
+          <p>A product landing experience with playful motion and a punchy palette.</p>
+          <a href="#" class="card__link">Explore →</a>
+        </article>
+        <article class="card card--b tilt fade-up" style="--d:.1s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🎨</span>
+          <h3>Palette</h3>
+          <p>A design system exploring vivid gradients and accessible contrast.</p>
+          <a href="#" class="card__link">Explore →</a>
+        </article>
+        <article class="card card--c tilt fade-up" style="--d:.2s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">⚡</span>
+          <h3>Velocity</h3>
+          <p>A fast, buttery-smooth interface with scroll-driven storytelling.</p>
+          <a href="#" class="card__link">Explore →</a>
+        </article>
+        <article class="card card--d tilt fade-up" style="--d:.3s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🌈</span>
+          <h3>Spectrum</h3>
+          <p>An interactive gallery that shifts color as you move through it.</p>
+          <a href="#" class="card__link">Explore →</a>
+        </article>
       </div>
     </section>
 
-    <!-- Projects -->
-    <section class="section projects" id="projects">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__tag">02 — Work</span>
-          <h2 class="section__title">Featured projects</h2>
-        </div>
-        <div class="projects__grid">
-          <article class="project reveal">
-            <div class="project__thumb" style="--c1:#6366f1;--c2:#8b5cf6;">🚀</div>
-            <div class="project__body">
-              <h3>Project One</h3>
-              <p>A short description of what this project is and why it's interesting. Swap this out for something real.</p>
-              <div class="project__tags"><span>HTML</span><span>CSS</span></div>
-              <a href="#" class="project__link">View project →</a>
-            </div>
-          </article>
-          <article class="project reveal">
-            <div class="project__thumb" style="--c1:#ec4899;--c2:#f43f5e;">🎨</div>
-            <div class="project__body">
-              <h3>Project Two</h3>
-              <p>Describe another thing you built or worked on. Add a link that points to a live demo or repo.</p>
-              <div class="project__tags"><span>Design</span><span>JS</span></div>
-              <a href="#" class="project__link">View project →</a>
-            </div>
-          </article>
-          <article class="project reveal">
-            <div class="project__thumb" style="--c1:#14b8a6;--c2:#22c55e;">⚡</div>
-            <div class="project__body">
-              <h3>Project Three</h3>
-              <p>One more highlight. Show off the range of things you can do with a variety of projects.</p>
-              <div class="project__tags"><span>JS</span><span>API</span></div>
-              <a href="#" class="project__link">View project →</a>
-            </div>
-          </article>
-        </div>
+    <!-- STICKY COLOR-SHIFT VALUES -->
+    <section class="values" id="values">
+      <div class="values__sticky">
+        <div class="values__label fade-up">How I work</div>
+        <ul class="values__list">
+          <li class="value reveal-line"><span>01</span> Clarity over clutter.</li>
+          <li class="value reveal-line"><span>02</span> Motion with meaning.</li>
+          <li class="value reveal-line"><span>03</span> Color, used with courage.</li>
+          <li class="value reveal-line"><span>04</span> Fast, always.</li>
+          <li class="value reveal-line"><span>05</span> Delight in the details.</li>
+        </ul>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section class="section contact" id="contact">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__tag">03 — Contact</span>
-          <h2 class="section__title">Let's work together</h2>
-        </div>
-        <div class="contact__inner reveal">
-          <p class="contact__lead">Have a question or want to say hi? Drop a message and I'll get back to you.</p>
-          <form class="contact__form" id="contactForm" novalidate>
-            <div class="field">
-              <input type="text" id="name" name="name" placeholder=" " required />
-              <label for="name">Your name</label>
-            </div>
-            <div class="field">
-              <input type="email" id="email" name="email" placeholder=" " required />
-              <label for="email">Your email</label>
-            </div>
-            <div class="field">
-              <textarea id="message" name="message" rows="4" placeholder=" " required></textarea>
-              <label for="message">Your message</label>
-            </div>
-            <button type="submit" class="btn btn--primary btn--full">Send message</button>
-            <p class="contact__note" id="formNote" role="status"></p>
-          </form>
-          <div class="contact__socials">
-            <a href="#" aria-label="Email">✉️ hello@yourname.com</a>
-            <a href="#" aria-label="GitHub">GitHub</a>
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+    <!-- MARQUEE -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦ DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦</span>
+        <span>DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦ DESIGN ✦ BUILD ✦ SHIP ✦ REPEAT ✦</span>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="contact__inner">
+        <h2 class="contact__title reveal-scale">Let's make<br /><span class="grad-text">something bright.</span></h2>
+        <p class="contact__sub fade-up">Have an idea, a project, or just want to say hi? I'd love to hear from you.</p>
+        <form class="contact__form fade-up" id="contactForm" novalidate>
+          <div class="field">
+            <input type="text" id="name" name="name" placeholder=" " required />
+            <label for="name">Your name</label>
           </div>
+          <div class="field">
+            <input type="email" id="email" name="email" placeholder=" " required />
+            <label for="email">Your email</label>
+          </div>
+          <div class="field field--full">
+            <textarea id="message" name="message" rows="3" placeholder=" " required></textarea>
+            <label for="message">Your message</label>
+          </div>
+          <button type="submit" class="btn btn--solid btn--full">Send it my way</button>
+          <p class="contact__note" id="formNote" role="status"></p>
+        </form>
+        <div class="contact__socials">
+          <a href="#">✉️ hello@yourname.com</a>
+          <a href="#">GitHub</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter</a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer__inner">
-      <p>© <span id="year"></span> Your Name. Built with care.</p>
-      <a href="#home" class="footer__top">Back to top ↑</a>
-    </div>
+    <p>© <span id="year"></span> Your Name — made with color & care.</p>
+    <a href="#top" class="footer__top">Back to top ↑</a>
   </footer>
 
   <script src="script.js"></script>
