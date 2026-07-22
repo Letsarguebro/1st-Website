@@ -230,7 +230,21 @@ body::after {
 .card--c .card__glow { background: radial-gradient(120% 120% at 100% 0%, var(--c-violet), transparent 55%); }
 .card--d .card__glow { background: radial-gradient(120% 120% at 100% 0%, var(--c-green-2), transparent 55%); }
 .card > * { position: relative; z-index: 1; }
-.card__emoji { font-size: 2.6rem; margin-bottom: auto; }
+.card__emoji { font-size: 2.6rem; margin-bottom: auto; display: inline-block; animation: floaty 4.5s var(--ease) infinite; }
+.cards .card:nth-child(2) .card__emoji { animation-delay: 0.5s; }
+.cards .card:nth-child(3) .card__emoji { animation-delay: 1s; }
+.cards .card:nth-child(4) .card__emoji { animation-delay: 1.5s; }
+.cards .card:nth-child(5) .card__emoji { animation-delay: 0.8s; }
+.cards .card:nth-child(6) .card__emoji { animation-delay: 1.3s; }
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-5deg); }
+}
+@keyframes tilePulse {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.25) saturate(1.3); }
+}
+.product__img, .rank__img { animation: tilePulse 4s var(--ease) infinite; }
 .card h3 { font-size: 1.7rem; letter-spacing: -0.02em; margin: 20px 0 8px; }
 .card p { color: var(--ink-soft); font-size: 1rem; margin-bottom: 16px; }
 .card__link { font-weight: 700; text-decoration: none; color: var(--ink); transition: color 0.2s; }

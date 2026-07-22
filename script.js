@@ -10,7 +10,9 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
   const ctx = canvas.getContext("2d");
   // green + purple lead, with a few cyan/white sparkles for depth
   const palette = ["#22ff9c", "#22ff9c", "#4ade80", "#a855f7", "#a855f7", "#7c3aed", "#22d3ee", "#e9d5ff"];
-  let w, h, dpr, particles, raf, running = true, t = 0;
+  // gaming-gear objects that float through the background
+  const gear = ["🎧", "🎮", "⌨️", "🖱️", "🕹️", "🖥️", "👾", "🚀", "🎯", "💾"];
+  let w, h, dpr, particles, floaters, raf, running = true, t = 0;
 
   function make() {
     const count = Math.min(200, Math.floor((innerWidth * innerHeight) / 8500));
@@ -24,6 +26,20 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
       ph: Math.random() * Math.PI * 2,       // twinkle phase
       tw: Math.random() * 0.05 + 0.015,      // twinkle speed
       base: Math.random() * 0.35 + 0.62,     // base brightness (brighter)
+    }));
+
+    const fcount = Math.min(16, Math.max(6, Math.floor((innerWidth * innerHeight) / 95000)));
+    floaters = Array.from({ length: fcount }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.22 * dpr,
+      vy: (Math.random() - 0.5) * 0.22 * dpr,
+      size: (Math.random() * 30 + 26) * dpr,
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.006,
+      bob: Math.random() * Math.PI * 2,
+      alpha: Math.random() * 0.14 + 0.12,
+      e: gear[(Math.random() * gear.length) | 0],
     }));
   }
 
@@ -77,6 +93,25 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
       ctx.fill();
     }
     ctx.shadowBlur = 0;
+
+    // floating gaming-gear objects
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for (let i = 0; i < floaters.length; i++) {
+      const f = floaters[i];
+      f.x += f.vx; f.y += f.vy; f.rot += f.vrot; f.bob += 0.02;
+      const m = f.size;
+      if (f.x < -m) f.x = w + m; else if (f.x > w + m) f.x = -m;
+      if (f.y < -m) f.y = h + m; else if (f.y > h + m) f.y = -m;
+      ctx.save();
+      ctx.translate(f.x, f.y + Math.sin(f.bob) * 6 * dpr);
+      ctx.rotate(f.rot);
+      ctx.globalAlpha = f.alpha;
+      ctx.font = f.size + "px serif";
+      ctx.fillText(f.e, 0, 0);
+      ctx.restore();
+    }
+
     ctx.globalAlpha = 1;
     if (running) raf = requestAnimationFrame(draw);
   }
