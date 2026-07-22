@@ -235,6 +235,20 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
   }
 })();
 
+// ----- Sticky mobile buy bar (show after scrolling, hide near footer) -----
+(function () {
+  const bar = document.getElementById("stickyBuy");
+  if (!bar) return;
+  function update() {
+    const y = window.scrollY;
+    const nearBottom =
+      window.innerHeight + y > document.documentElement.scrollHeight - 220;
+    bar.classList.toggle("show", y > 650 && !nearBottom);
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+})();
+
 // ----- Footer year -----
 (function () {
   const y = document.getElementById("year");

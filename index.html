@@ -125,6 +125,7 @@
         <!-- PRODUCT CARD (duplicate + edit for each pick) -->
         <article class="product fade-up">
           <span class="product__badge">Best overall</span>
+          <span class="deal-badge">🔥 Price dropped</span>
           <div class="product__img">
             <!-- 📸 REAL PHOTO: delete the 🎧 below and paste your image, e.g.
                  <img src="PASTE_IMAGE_URL_HERE" alt="Example Headset Pro X" /> -->
@@ -144,6 +145,7 @@
 
         <article class="product fade-up" style="--d:.1s">
           <span class="product__badge product__badge--alt">Best budget</span>
+          <span class="deal-badge">⚡ Lowest this month</span>
           <div class="product__img">
             <!-- 📸 REAL PHOTO: delete the 🖱️ below and paste your image, e.g.
                  <img src="PASTE_IMAGE_URL_HERE" alt="Example Lightweight Mouse" /> -->
@@ -230,6 +232,16 @@
       <a href="#top" class="footer__top">Back to top ↑</a>
     </div>
   </footer>
+
+  <!-- Sticky mobile buy bar (follows the user, shows after scrolling) -->
+  <div class="sticky-buy" id="stickyBuy" aria-hidden="true">
+    <div class="sticky-buy__info">
+      <span class="sticky-buy__name">🏆 Top pick: Example Headset Pro X</span>
+      <span class="sticky-buy__price">$129 · ★ 4.8</span>
+    </div>
+    <!-- TODO: paste your Amazon Associates link in href -->
+    <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+  </div>
 
   <script src="script.js"></script>
 </body>
