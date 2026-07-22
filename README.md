@@ -41,6 +41,30 @@ Everything is placeholder content, ready to customize:
   to a form service like [Formspree](https://formspree.io) or Netlify Forms
   (see the comment in `script.js`).
 
+## Adding real product photos
+
+Each product tile is image-ready. In `index.html` (top picks) or
+`best-gaming-headsets.html` (ranked list), find a tile like:
+
+```html
+<div class="product__img">
+  <!-- 📸 REAL PHOTO: delete the 🎧 below and paste your image ... -->
+  🎧
+</div>
+```
+
+Delete the emoji and drop in an image tag:
+
+```html
+<div class="product__img">
+  <img src="https://link-to-the-product-photo.jpg" alt="Headset name" />
+</div>
+```
+
+The photo auto-sizes to fill the tile. Use the images your affiliate program
+provides (Amazon Associates gives you approved product images), or the brand's
+official press photos.
+
 ## Deploy
 
 Push to GitHub and enable **GitHub Pages** (Settings → Pages → deploy from

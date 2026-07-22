@@ -371,9 +371,13 @@ a.card { text-decoration: none; color: inherit; }
 .product__badge--alt { background: var(--c-pink); }
 .product__badge--alt2 { background: var(--c-blue); }
 .product__img {
-  height: 170px; display: grid; place-items: center; font-size: 4rem;
+  height: 200px; display: grid; place-items: center; font-size: 4rem; overflow: hidden;
   background: linear-gradient(135deg, color-mix(in srgb, var(--c-purple) 30%, #05060e), color-mix(in srgb, var(--c-green) 24%, #05060e));
   border-bottom: 1px solid var(--line);
+}
+/* When a real photo is added, it fills the tile cleanly */
+.product__img img, .rank__img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .product__body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
 .product__name { font-size: 1.3rem; letter-spacing: -0.02em; margin-bottom: 8px; }
