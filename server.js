@@ -20,7 +20,7 @@ app.use("/vendor/three-addons", express.static("node_modules/three/examples/jsm"
 const apiKey = process.env.ANTHROPIC_API_KEY;
 const client = apiKey ? new Anthropic({ apiKey }) : null;
 const DEMO = !client;
-const MAX_ROUNDS = 2;
+const MAX_ROUNDS = 3;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

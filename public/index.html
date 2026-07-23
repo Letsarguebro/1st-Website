@@ -26,10 +26,11 @@
       <aside class="chat">
         <header class="chat-head">
           <span class="chat-avatar" style="background: #7c5cff">🧭</span>
-          <div>
+          <div class="chat-id">
             <div class="chat-name">Morgan</div>
             <div class="chat-sub">Head Agent · <span id="modeText">…</span></div>
           </div>
+          <button id="voiceBtn" class="icon-btn" title="Voice: off" aria-label="Toggle voice">🔈</button>
         </header>
         <div class="chat-log" id="chatLog"></div>
         <form class="chat-form" id="chatForm">
@@ -104,6 +105,13 @@
           <div class="final" id="final"><p class="muted">The finished work will appear here.</p></div>
         </section>
       </aside>
+
+      <!-- MOBILE: bottom tab bar (hidden on desktop) -->
+      <nav class="mobile-nav" id="mobileNav">
+        <button data-view="office" class="active">🏢<span>Office</span></button>
+        <button data-view="chat">💬<span>Chat</span></button>
+        <button data-view="system">📋<span>System</span></button>
+      </nav>
     </div>
 
     <script type="module" src="/app.js"></script>

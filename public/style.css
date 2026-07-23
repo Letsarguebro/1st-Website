@@ -248,12 +248,67 @@ h2, h3 { margin: 0; font-weight: 600; }
 .agent-tag.active { opacity: 1; transform: scale(1.08); box-shadow: 0 4px 12px rgba(124, 92, 255, 0.3); }
 .agent-tag .dot { width: 7px; height: 7px; border-radius: 50%; }
 
-/* ---------------- responsive ---------------- */
-@media (max-width: 1100px) {
-  .app { grid-template-columns: 280px 1fr; }
-  .system { display: none; }
+/* chat header layout + icon button */
+.chat-id { flex: 1; min-width: 0; }
+.icon-btn {
+  width: 38px; height: 38px; flex: 0 0 auto;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: #fff; font-size: 16px; cursor: pointer;
 }
-@media (max-width: 760px) {
-  .app { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
-  .chat { display: none; }
+.icon-btn.on { background: #e6ddff; border-color: var(--accent); }
+
+/* mobile bottom nav (hidden on desktop) */
+.mobile-nav { display: none; }
+
+/* ---------------- desktop / tablet ---------------- */
+@media (max-width: 1100px) and (min-width: 861px) {
+  .app { grid-template-columns: 300px 1fr; }
+  .system {
+    position: fixed; top: 0; right: 0; width: 340px; height: 100vh;
+    transform: translateX(100%); transition: transform 0.25s; z-index: 20;
+    box-shadow: -8px 0 24px rgba(40,50,70,0.12);
+  }
+  body.m-system .system { transform: translateX(0); }
+}
+
+/* ---------------- phone ---------------- */
+@media (max-width: 860px) {
+  .app {
+    display: block;
+    height: 100dvh;
+  }
+  /* office fills the screen */
+  .stage { position: fixed; inset: 0 0 60px 0; }
+  .stage-top { top: 12px; left: 12px; right: 12px; }
+  .runtime { left: 10px; right: 10px; bottom: 70px; padding: 10px 12px; }
+  .rt-grid { grid-template-columns: repeat(3, 1fr); gap: 6px 12px; }
+
+  /* chat + system become slide-up sheets */
+  .chat, .system {
+    position: fixed; left: 0; right: 0; bottom: 60px;
+    height: 74dvh; z-index: 30;
+    border: none; border-top: 1px solid var(--line);
+    border-radius: 18px 18px 0 0;
+    transform: translateY(120%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -10px 30px rgba(40, 50, 70, 0.18);
+  }
+  body.m-chat .chat { transform: translateY(0); }
+  body.m-system .system { transform: translateY(0); display: block; }
+  .system { overflow-y: auto; }
+
+  /* bottom tab bar */
+  .mobile-nav {
+    display: flex;
+    position: fixed; left: 0; right: 0; bottom: 0; height: 60px;
+    background: #fff; border-top: 1px solid var(--line);
+    z-index: 40;
+  }
+  .mobile-nav button {
+    flex: 1; border: none; background: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px; font-size: 20px; color: var(--muted);
+  }
+  .mobile-nav button span { font-size: 10px; font-weight: 600; }
+  .mobile-nav button.active { color: var(--accent); }
 }

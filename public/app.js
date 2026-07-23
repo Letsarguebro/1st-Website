@@ -63,6 +63,8 @@ $("#chatForm").addEventListener("submit", async (e) => {
 
 async function handleChat(message) {
   setBusy(true);
+  office.setStatus("manager", "thinking"); // Morgan reacts the moment you talk to him
+  setAgentState("manager", "thinking");
   const thinking = addMsg("morgan", "…", true);
   try {
     const res = await fetch("/api/chat", {
@@ -74,8 +76,11 @@ async function handleChat(message) {
     thinking.remove();
     addMsg("morgan", data.reply);
     if (data.run && data.goal) {
+      setView("office"); // on phone, jump to the office to watch the team work
       await runGoal(data.goal);
     } else {
+      office.setStatus("manager", "idle");
+      setAgentState("manager", "idle");
       setBusy(false);
     }
   } catch (err) {
@@ -280,8 +285,46 @@ function addMsg(who, text, pending) {
   div.innerHTML = `${avatar}<div class="bubble">${pending ? "…" : body}</div>`;
   $("#chatLog").appendChild(div);
   $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+  if (who === "morgan" && !pending) speak(text);
   return div;
 }
+
+// ---- mobile tab bar --------------------------------------------------------
+function setView(view) {
+  document.body.classList.toggle("m-chat", view === "chat");
+  document.body.classList.toggle("m-system", view === "system");
+  document.querySelectorAll(".mobile-nav button").forEach((b) =>
+    b.classList.toggle("active", b.dataset.view === view),
+  );
+}
+document.querySelectorAll(".mobile-nav button").forEach((b) => {
+  b.addEventListener("click", () => setView(b.dataset.view));
+});
+
+// ---- voice (Jarvis-style spoken replies) -----------------------------------
+let voiceOn = false;
+const synth = window.speechSynthesis;
+function stripMd(t) {
+  return String(t).replace(/[#*`_>[\]()~]/g, " ").replace(/\s+/g, " ").trim();
+}
+function speak(text) {
+  if (!voiceOn || !synth) return;
+  try {
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(stripMd(text).slice(0, 400));
+    u.rate = 1.03;
+    synth.speak(u);
+  } catch {}
+}
+$("#voiceBtn").addEventListener("click", () => {
+  voiceOn = !voiceOn;
+  const btn = $("#voiceBtn");
+  btn.textContent = voiceOn ? "🔊" : "🔈";
+  btn.classList.toggle("on", voiceOn);
+  btn.title = voiceOn ? "Voice: on" : "Voice: off";
+  if (voiceOn) speak("Voice enabled. I'm listening.");
+  else synth?.cancel();
+});
 
 // ---- tiny markdown renderer ------------------------------------------------
 function escapeHtml(s) {
