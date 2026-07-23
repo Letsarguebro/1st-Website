@@ -17,6 +17,7 @@
   "type": "module",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.113.0",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "three": "^0.185.1"
   }
 }
