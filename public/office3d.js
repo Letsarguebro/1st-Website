@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 
 // Where an agent stands (and what it faces) when working at a given prop.
 const STATIONS = {
@@ -48,12 +48,11 @@ export function createOffice(container) {
   renderer.toneMappingExposure = 0.92;
   container.appendChild(renderer.domElement);
 
-  // Studio environment map → real reflections on the glossy characters, metal
-  // vault, glass gate, etc. RoomEnvironment is procedural (no external files).
-  // Kept subtle so it adds reflection without over-lighting the scene.
+  // Studio softbox environment → the streaky highlights and real reflections
+  // you see on glossy product renders. Built procedurally (no external files).
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.35;
+  scene.environment = pmrem.fromScene(makeStudioEnv(), 0.4).texture;
+  scene.environmentIntensity = 0.5;
 
   const labelRenderer = new CSS2DRenderer();
   Object.assign(labelRenderer.domElement.style, {
@@ -87,6 +86,11 @@ export function createOffice(container) {
   const bloom = new UnrealBloomPass(new THREE.Vector2(w0, h0), 0.32, 0.4, 1.0);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
+  // Tilt-shift depth-of-field: keeps the middle of the room sharp and softly
+  // blurs the near/far edges, for that miniature "product render" look.
+  const tilt = new ShaderPass(TiltShiftShader);
+  tilt.uniforms.uTexel.value.set(1 / w0, 1 / h0);
+  composer.addPass(tilt);
 
   // soft contact-shadow blob that sits under each agent
   const shadowTex = makeBlobTexture();
@@ -285,6 +289,7 @@ export function createOffice(container) {
     renderer.setSize(w, h);
     composer.setSize(w, h);
     bloom.setSize(w, h);
+    tilt.uniforms.uTexel.value.set(1 / w, 1 / h);
     labelRenderer.setSize(w, h);
     setFrustum();
   }
@@ -384,6 +389,53 @@ function lerpAngle(a, b, t) {
   return a + d * t;
 }
 
+// A tiny studio scene of glowing softbox panels; PMREM turns it into the
+// environment map, giving glossy surfaces those long reflective highlights.
+function makeStudioEnv() {
+  const s = new THREE.Scene();
+  s.background = new THREE.Color(0x3b4048);
+  const soft = (x, y, z, w, h, intensity, color) => {
+    const m = new THREE.Mesh(
+      new THREE.PlaneGeometry(w, h),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(intensity) }),
+    );
+    m.position.set(x, y, z);
+    m.lookAt(0, 0, 0);
+    s.add(m);
+  };
+  soft(-7, 9, 5, 11, 11, 3.2, 0xffffff); // key
+  soft(8, 6, 2, 8, 9, 1.3, 0xdfeaff); // cool fill
+  soft(0, 8, -9, 14, 6, 1.1, 0xffffff); // top/back rim
+  soft(-3, -6, 3, 20, 20, 0.35, 0x2a2e34); // dark floor bounce (contrast)
+  return s;
+}
+
+// Screen-space tilt-shift: sharp focus band, soft blur toward the top & bottom.
+const TiltShiftShader = {
+  uniforms: {
+    tDiffuse: { value: null },
+    uTexel: { value: new THREE.Vector2(1 / 1024, 1 / 1024) },
+    uFocus: { value: 0.6 },
+    uStrength: { value: 2.2 },
+  },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+  fragmentShader: `
+    uniform sampler2D tDiffuse; uniform vec2 uTexel; uniform float uFocus; uniform float uStrength;
+    varying vec2 vUv;
+    void main(){
+      float d = clamp((abs(vUv.y - uFocus) - 0.14) / 0.42, 0.0, 1.0);
+      float b = d * d * uStrength;
+      float o1 = 1.384 * b, o2 = 3.230 * b;
+      vec4 sum = texture2D(tDiffuse, vUv) * 0.227;
+      sum += texture2D(tDiffuse, vUv + vec2(0.0, uTexel.y * o1)) * 0.316;
+      sum += texture2D(tDiffuse, vUv - vec2(0.0, uTexel.y * o1)) * 0.316;
+      sum += texture2D(tDiffuse, vUv + vec2(0.0, uTexel.y * o2)) * 0.070;
+      sum += texture2D(tDiffuse, vUv - vec2(0.0, uTexel.y * o2)) * 0.070;
+      gl_FragColor = sum;
+    }
+  `,
+};
+
 function makeBlobTexture() {
   const s = 128;
   const c = document.createElement("canvas");
@@ -418,7 +470,7 @@ function mkLabelChild(obj, x, y, z) {
 }
 
 function buildRoom(scene) {
-  const white = new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: 0.5, metalness: 0, envMapIntensity: 0.7 });
+  const white = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.32, metalness: 0.0, envMapIntensity: 1.0 });
   const floor = new THREE.Mesh(new THREE.BoxGeometry(19, 0.4, 15), white);
   floor.position.set(0, -0.2, -0.5);
   floor.receiveShadow = true;
