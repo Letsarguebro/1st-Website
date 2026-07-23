@@ -1,6 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 // Where an agent stands (and what it faces) when working at a given prop.
 const STATIONS = {
@@ -39,7 +44,16 @@ export function createOffice(container) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; // cinematic, filmic highlights
+  renderer.toneMappingExposure = 0.92;
   container.appendChild(renderer.domElement);
+
+  // Studio environment map → real reflections on the glossy characters, metal
+  // vault, glass gate, etc. RoomEnvironment is procedural (no external files).
+  // Kept subtle so it adds reflection without over-lighting the scene.
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = 0.35;
 
   const labelRenderer = new CSS2DRenderer();
   Object.assign(labelRenderer.domElement.style, {
@@ -62,16 +76,33 @@ export function createOffice(container) {
   controls.target.set(0, 1, -0.5);
   controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_ROTATE };
 
+  // ---- post-processing: subtle bloom on the glows (eyes, hologram) ----
+  const w0 = container.clientWidth || 1;
+  const h0 = container.clientHeight || 1;
+  const composer = new EffectComposer(
+    renderer,
+    new THREE.WebGLRenderTarget(w0, h0, { samples: 4, type: THREE.HalfFloatType }),
+  );
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(w0, h0), 0.32, 0.4, 1.0);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+
+  // soft contact-shadow blob that sits under each agent
+  const shadowTex = makeBlobTexture();
+  const shadowGeo = new THREE.PlaneGeometry(1.7, 1.7);
+  const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0.32 });
+
   // ---- lighting ----
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d3c8, 0.9));
-  const key = new THREE.DirectionalLight(0xffffff, 1.5);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d3c8, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.15);
   key.position.set(12, 20, 10);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
   Object.assign(key.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, far: 60 });
   key.shadow.bias = -0.0004;
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xbcd3ff, 0.4);
+  const fill = new THREE.DirectionalLight(0xbcd3ff, 0.3);
   fill.position.set(-10, 8, -6);
   scene.add(fill);
 
@@ -83,7 +114,10 @@ export function createOffice(container) {
   const agents = {};
 
   function build(roster) {
-    Object.values(agents).forEach((a) => scene.remove(a.group));
+    Object.values(agents).forEach((a) => {
+      scene.remove(a.group);
+      if (a.shadow) scene.remove(a.shadow);
+    });
     for (const k in agents) delete agents[k];
 
     const list = [roster.manager, ...roster.specialists];
@@ -110,6 +144,11 @@ export function createOffice(container) {
       tagObj.position.set(0, 2.5, 0);
       a.group.add(tagObj);
       a.tagEl = tag;
+
+      a.shadow = new THREE.Mesh(shadowGeo, shadowMat.clone());
+      a.shadow.rotation.x = -Math.PI / 2;
+      a.shadow.position.set(a.home.x, 0.03, a.home.z);
+      scene.add(a.shadow);
 
       scene.add(a.group);
       agents[meta.id] = a;
@@ -212,6 +251,10 @@ export function createOffice(container) {
         a.group.rotation.y = lerpAngle(a.group.rotation.y, Math.atan2(d.x, d.z), 0.15);
       }
       animateBody(a, t, moving, dist);
+      if (a.shadow) {
+        a.shadow.position.set(a.group.position.x, 0.03, a.group.position.z);
+        a.shadow.material.opacity = a.sitting && dist < 0.25 ? 0.18 : 0.32;
+      }
     });
 
     for (let i = packets.length - 1; i >= 0; i--) {
@@ -230,7 +273,7 @@ export function createOffice(container) {
     }
 
     controls.update();
-    renderer.render(scene, camera);
+    composer.render();
     labelRenderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
@@ -240,6 +283,8 @@ export function createOffice(container) {
     const w = container.clientWidth;
     const h = container.clientHeight;
     renderer.setSize(w, h);
+    composer.setSize(w, h);
+    bloom.setSize(w, h);
     labelRenderer.setSize(w, h);
     setFrustum();
   }
@@ -269,7 +314,7 @@ function makeAgent(color) {
   head.castShadow = true;
   group.add(head);
 
-  const eyeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x9fe8ff, emissiveIntensity: 1.6 });
+  const eyeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x9fe8ff, emissiveIntensity: 2.4 });
   const eyeGeo = new THREE.SphereGeometry(0.09, 12, 12);
   const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
   const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
@@ -339,6 +384,22 @@ function lerpAngle(a, b, t) {
   return a + d * t;
 }
 
+function makeBlobTexture() {
+  const s = 128;
+  const c = document.createElement("canvas");
+  c.width = c.height = s;
+  const g = c.getContext("2d");
+  const grad = g.createRadialGradient(s / 2, s / 2, 2, s / 2, s / 2, s / 2);
+  grad.addColorStop(0, "rgba(28,30,42,0.55)");
+  grad.addColorStop(0.55, "rgba(28,30,42,0.2)");
+  grad.addColorStop(1, "rgba(28,30,42,0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, s, s);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
 // -----------------------------------------------------------------
 // room + props
 // -----------------------------------------------------------------
@@ -357,7 +418,7 @@ function mkLabelChild(obj, x, y, z) {
 }
 
 function buildRoom(scene) {
-  const white = new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: 0.95 });
+  const white = new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: 0.5, metalness: 0, envMapIntensity: 0.7 });
   const floor = new THREE.Mesh(new THREE.BoxGeometry(19, 0.4, 15), white);
   floor.position.set(0, -0.2, -0.5);
   floor.receiveShadow = true;
