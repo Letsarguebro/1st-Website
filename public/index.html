@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Agentic Office</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🏢</span>
+        <div>
+          <h1>The Agentic Office</h1>
+          <p class="tagline">A little team of AI agents that plan, delegate, and deliver.</p>
+        </div>
+      </div>
+      <div class="mode-pill" id="modePill" title="Server mode">…</div>
+    </header>
+
+    <section class="prompt">
+      <form id="taskForm">
+        <input
+          id="taskInput"
+          type="text"
+          autocomplete="off"
+          placeholder="Give the office a task — e.g. “Write a launch announcement for a cozy coffee app”"
+        />
+        <button id="runBtn" type="submit">Assign work</button>
+      </form>
+      <div class="examples" id="examples">
+        <span>Try:</span>
+        <button data-ex="Write a short, warm launch announcement for a cozy coffee-ordering app.">launch post</button>
+        <button data-ex="Plan a simple weekend itinerary for a first trip to Kyoto.">Kyoto trip</button>
+        <button data-ex="Design and outline a landing page for a note-taking app for students.">landing page</button>
+      </div>
+    </section>
+
+    <main class="stage">
+      <section class="floor" id="floor" aria-label="Office floor">
+        <div class="floor-label">Office floor</div>
+        <div class="desks" id="desks"></div>
+        <div class="packets" id="packets"></div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-block">
+          <h2>Activity</h2>
+          <ul class="log" id="log">
+            <li class="log-empty">The office is quiet. Assign a task to get started.</li>
+          </ul>
+        </div>
+        <div class="panel-block deliverable">
+          <h2>Deliverable</h2>
+          <div class="final" id="final">
+            <p class="final-empty">The finished work will appear here.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      Powered by Claude agents · <span id="modelName">…</span>
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
