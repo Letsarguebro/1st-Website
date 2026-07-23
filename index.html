@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LootLevel — Gaming Gear, Ranked.</title>
+  <meta name="description" content="Honest, no-nonsense rankings of the best gaming gear — headsets, keyboards, mice, chairs and more. So you buy right the first time." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
+</head>
+<body>
+  <canvas class="bg-canvas" id="bgCanvas" aria-hidden="true"></canvas>
+  <div class="scroll-progress" id="progress"></div>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Loot<span>Level</span></a>
+      <nav class="nav__links">
+        <a href="best-gaming-headsets.html">Headsets</a>
+        <a href="#categories">Keyboards</a>
+        <a href="#categories">Mice</a>
+        <a href="#categories">Chairs</a>
+        <a href="#guide">Guides</a>
+      </nav>
+      <a href="#picks" class="nav__cta">Top picks</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__orbs" aria-hidden="true">
+        <span class="orb orb--1" data-parallax="0.10"></span>
+        <span class="orb orb--2" data-parallax="0.18"></span>
+        <span class="orb orb--3" data-parallax="0.06"></span>
+        <span class="orb orb--4" data-parallax="0.22"></span>
+      </div>
+      <div class="hero__content">
+        <p class="hero__kicker fade-up">🎮 Gaming gear, tested & ranked</p>
+        <h1 class="hero__title">
+          <span class="line fade-up" style="--d:.05s">Buy the</span>
+          <span class="line grad-text fade-up" style="--d:.15s">right gear</span>
+          <span class="line fade-up" style="--d:.25s">the first time.</span>
+        </h1>
+        <p class="hero__sub fade-up" style="--d:.35s">No fluff, no paid rankings — just clear, honest picks for the gear that actually wins. Find your next upgrade in minutes.</p>
+        <div class="hero__cta fade-up" style="--d:.45s">
+          <a href="#picks" class="btn btn--solid">See this month's top picks</a>
+          <a href="best-gaming-headsets.html" class="btn btn--outline">Best headsets →</a>
+        </div>
+        <p class="hero__disclosure fade-up" style="--d:.55s">As an Amazon Associate, LootLevel earns from qualifying purchases. It never costs you extra.</p>
+      </div>
+      <div class="hero__scroll" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="work" id="categories">
+      <div class="work__head">
+        <p class="eyebrow fade-up">Browse by category</p>
+        <h2 class="section-title fade-up" style="--d:.1s">What are you<br />upgrading today?</h2>
+      </div>
+      <div class="cards">
+        <a href="best-gaming-headsets.html" class="card card--a tilt fade-up">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🎧</span>
+          <h3>Headsets</h3>
+          <p>Crystal comms and immersive sound, ranked for every budget.</p>
+          <span class="card__link">See the top 5 →</span>
+        </a>
+        <a href="#picks" class="card card--b tilt fade-up" style="--d:.1s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">⌨️</span>
+          <h3>Keyboards</h3>
+          <p>Mechanical, hot-swap, and low-profile boards worth the desk space.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--c tilt fade-up" style="--d:.2s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🖱️</span>
+          <h3>Mice</h3>
+          <p>Featherweight, high-DPI, and wireless mice that keep up with you.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--d tilt fade-up" style="--d:.3s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🪑</span>
+          <h3>Chairs</h3>
+          <p>All-day comfort that saves your back during marathon sessions.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--a tilt fade-up">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🖥️</span>
+          <h3>Monitors</h3>
+          <p>High-refresh panels that turn reaction time into an advantage.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+        <a href="#picks" class="card card--c tilt fade-up" style="--d:.1s">
+          <div class="card__glow"></div>
+          <span class="card__emoji">🎮</span>
+          <h3>Controllers</h3>
+          <p>Pro-grade pads with paddles, triggers, and zero input lag.</p>
+          <span class="card__link">Coming soon →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="statement">
+      <div class="statement__inner">
+        <h2 class="statement__text reveal-scale">
+          We rank on <em class="grad-text">performance</em>, not on who <em class="grad-text-2">pays the most</em>.
+        </h2>
+      </div>
+    </section>
+
+    <!-- THIS MONTH'S TOP PICKS -->
+    <section class="picks" id="picks">
+      <div class="picks__head">
+        <p class="eyebrow fade-up">Editor's choice · Updated monthly</p>
+        <h2 class="section-title fade-up" style="--d:.1s">This month's top picks</h2>
+        <p class="picks__note fade-up" style="--d:.2s">Prices update on the retailer's site. Links are affiliate links — thanks for supporting LootLevel.</p>
+      </div>
+
+      <div class="products">
+        <!-- PRODUCT CARD (duplicate + edit for each pick) -->
+        <article class="product fade-up">
+          <span class="product__badge">Best overall</span>
+          <span class="deal-badge">🔥 Price dropped</span>
+          <div class="product__img">
+            <!-- 📸 REAL PHOTO: delete the 🎧 below and paste your image, e.g.
+                 <img src="PASTE_IMAGE_URL_HERE" alt="HyperX Cloud III" /> -->
+            🎧
+          </div>
+          <div class="product__body">
+            <h3 class="product__name">HyperX Cloud III</h3>
+            <div class="product__rating"><span class="stars">★★★★★</span><span class="rating-num">4.7</span></div>
+            <p class="product__desc">The do-everything pick — rich balanced sound, a genuinely clear detachable mic, and memory-foam comfort. Works on PC, PlayStation, Xbox &amp; Switch.</p>
+            <div class="product__meta">
+              <span class="product__price">~$99</span>
+              <!-- TODO: paste your Amazon Associates link in href below -->
+              <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="product fade-up" style="--d:.1s">
+          <span class="product__badge product__badge--alt">Best budget</span>
+          <span class="deal-badge">⚡ Lowest this month</span>
+          <div class="product__img">
+            <!-- 📸 REAL PHOTO: delete the 🖱️ below and paste your image, e.g.
+                 <img src="PASTE_IMAGE_URL_HERE" alt="Logitech G203 LIGHTSYNC" /> -->
+            🖱️
+          </div>
+          <div class="product__body">
+            <h3 class="product__name">Logitech G203 LIGHTSYNC</h3>
+            <div class="product__rating"><span class="stars">★★★★★</span><span class="rating-num">4.7</span></div>
+            <p class="product__desc">Cheap, accurate, and recommended everywhere — a snappy sensor, classic shape, and RGB. The no-brainer starter or backup mouse.</p>
+            <div class="product__meta">
+              <span class="product__price">~$29</span>
+              <!-- TODO: paste your Amazon Associates link in href below -->
+              <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="product fade-up" style="--d:.2s">
+          <span class="product__badge product__badge--alt2">Best keyboard</span>
+          <div class="product__img">
+            <!-- 📸 REAL PHOTO: delete the ⌨️ below and paste your image, e.g.
+                 <img src="PASTE_IMAGE_URL_HERE" alt="Keychron K8" /> -->
+            ⌨️
+          </div>
+          <div class="product__body">
+            <h3 class="product__name">Keychron K8</h3>
+            <div class="product__rating"><span class="stars">★★★★★</span><span class="rating-num">4.6</span></div>
+            <p class="product__desc">A beloved all-rounder — hot-swappable switches, wireless or wired, Mac &amp; Windows, and a premium typing feel that punches above its price.</p>
+            <div class="product__meta">
+              <span class="product__price">~$89</span>
+              <!-- TODO: paste your Amazon Associates link in href below -->
+              <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- WHY TRUST / GUIDE -->
+    <section class="values" id="guide">
+      <div class="values__sticky">
+        <div class="values__label fade-up">Why trust LootLevel</div>
+        <ul class="values__list">
+          <li class="value reveal-line"><span>01</span> Ranked on real performance.</li>
+          <li class="value reveal-line"><span>02</span> Every budget covered.</li>
+          <li class="value reveal-line"><span>03</span> Updated as prices change.</li>
+          <li class="value reveal-line"><span>04</span> Honest pros &amp; cons.</li>
+          <li class="value reveal-line"><span>05</span> No pay-to-win rankings.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>HEADSETS ✦ KEYBOARDS ✦ MICE ✦ CHAIRS ✦ MONITORS ✦ CONTROLLERS ✦</span>
+        <span>HEADSETS ✦ KEYBOARDS ✦ MICE ✦ CHAIRS ✦ MONITORS ✦ CONTROLLERS ✦</span>
+      </div>
+    </section>
+
+    <!-- EMAIL CAPTURE -->
+    <section class="contact" id="signup">
+      <div class="contact__inner">
+        <h2 class="contact__title reveal-scale">Get the<br /><span class="grad-text">weekly deal drop.</span></h2>
+        <p class="contact__sub fade-up">The best gaming-gear deals and new rankings, once a week. No spam, ever.</p>
+        <form class="signup__form fade-up" id="signupForm" novalidate>
+          <div class="field field--full">
+            <input type="email" id="email" name="email" placeholder=" " required />
+            <label for="email">Your email</label>
+          </div>
+          <button type="submit" class="btn btn--solid btn--full">Send me the deals</button>
+          <p class="contact__note" id="formNote" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer--stack">
+    <p class="footer__disclosure">
+      <strong>Affiliate disclosure:</strong> LootLevel is reader-supported. When you buy through links on our site, we may earn a commission as an Amazon Associate and through other affiliate programs — at no extra cost to you. This never affects our rankings.
+    </p>
+    <div class="footer__row">
+      <p>© <span id="year"></span> LootLevel — gaming gear, ranked.</p>
+      <a href="#top" class="footer__top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile buy bar (follows the user, shows after scrolling) -->
+  <div class="sticky-buy" id="stickyBuy" aria-hidden="true">
+    <div class="sticky-buy__info">
+      <span class="sticky-buy__name">🏆 Top pick: HyperX Cloud III</span>
+      <span class="sticky-buy__price">~$99 · ★ 4.7</span>
+    </div>
+    <!-- TODO: paste your Amazon Associates link in href -->
+    <a href="#" rel="sponsored nofollow noopener" target="_blank" class="btn btn--solid btn--sm">Check price →</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
