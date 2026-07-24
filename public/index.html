@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axial Office — Agentic AI Workspace</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%8F%A2%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/three.module.js",
+          "three/addons/": "/vendor/three-addons/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="app">
+      <!-- LEFT: chat with the head agent -->
+      <aside class="chat">
+        <header class="chat-head">
+          <span class="chat-avatar" style="background: #7c5cff">🧭</span>
+          <div class="chat-id">
+            <div class="chat-name">Morgan</div>
+            <div class="chat-sub">Head Agent · <span id="modeText">…</span></div>
+          </div>
+          <button id="voiceBtn" class="icon-btn" title="Voice: off" aria-label="Toggle voice">🔈</button>
+        </header>
+        <div class="chat-log" id="chatLog"></div>
+        <form class="chat-form" id="chatForm">
+          <input
+            id="chatInput"
+            type="text"
+            autocomplete="off"
+            placeholder="Give Morgan a goal…"
+          />
+          <button type="submit" id="chatSend" aria-label="Send">➤</button>
+        </form>
+      </aside>
+
+      <!-- CENTER: the 3D office -->
+      <main class="stage">
+        <div class="stage-top">
+          <div class="search">🔍 <span>Axial Office</span></div>
+          <div class="pill" id="agentsActive">— agents</div>
+        </div>
+        <div class="scene" id="scene"></div>
+        <!-- bottom runtime readout -->
+        <div class="runtime" id="runtime">
+          <div class="rt-agent">
+            <span class="rt-dot" id="rtDot"></span>
+            <span id="rtAgent">idle</span>
+          </div>
+          <div class="rt-grid">
+            <div><label>TASK</label><span id="rtTask">—</span></div>
+            <div><label>ROUND</label><span id="rtRound">—</span></div>
+            <div><label>RUNTIME</label><span id="rtTime">00:00.0</span></div>
+            <div><label>TOKENS</label><span id="rtTokens">0</span></div>
+            <div><label>STATUS</label><span id="rtStatus" class="rt-status">idle</span></div>
+          </div>
+          <div class="rt-bar"><i id="rtProgress"></i></div>
+        </div>
+      </main>
+
+      <!-- RIGHT: system overview -->
+      <aside class="system">
+        <h2>System Overview</h2>
+
+        <section class="sys-block">
+          <div class="sys-row"><span>Model</span><b id="sysModel">…</b></div>
+          <div class="sys-row"><span>Mode</span><b id="sysMode">…</b></div>
+        </section>
+
+        <section class="sys-block">
+          <h3>Agents</h3>
+          <ul class="agent-list" id="agentList"></ul>
+        </section>
+
+        <section class="sys-block">
+          <h3>Activity</h3>
+          <ul class="log" id="log">
+            <li class="log-empty">Give Morgan a goal to get started.</li>
+          </ul>
+        </section>
+
+        <section class="sys-block">
+          <div class="sys-head">
+            <h3>History &amp; Insights</h3>
+            <button id="insightBtn" class="mini-btn">Suggest shortcuts</button>
+          </div>
+          <div class="insights" id="insights">
+            <p class="muted">Your past goals appear here. Ask me to find ways to make them easier.</p>
+          </div>
+          <ul class="history" id="history"></ul>
+        </section>
+
+        <section class="sys-block deliverable">
+          <h3>Deliverable</h3>
+          <div class="final" id="final"><p class="muted">The finished work will appear here.</p></div>
+        </section>
+      </aside>
+
+      <!-- MOBILE: bottom tab bar (hidden on desktop) -->
+      <nav class="mobile-nav" id="mobileNav">
+        <button data-view="office" class="active">🏢<span>Office</span></button>
+        <button data-view="chat">💬<span>Chat</span></button>
+        <button data-view="system">📋<span>System</span></button>
+      </nav>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
