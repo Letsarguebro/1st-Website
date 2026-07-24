@@ -1,11 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { CSS2DRenderer, CSS2DObject } from "three/addons/renderers/CSS2DRenderer.js";
+import { Reflector } from "three/addons/objects/Reflector.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 
 // Where an agent stands (and what it faces) when working at a given prop.
 const STATIONS = {
@@ -20,25 +21,33 @@ const STATIONS = {
 export function createOffice(container) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xf3f1ec);
-  scene.fog = new THREE.Fog(0xf3f1ec, 36, 64);
 
-  // ---- camera (isometric-ish orthographic) ----
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 200);
-  const setFrustum = () => {
+  // ---- camera: long-lens perspective (near-isometric, but real depth for DoF) ----
+  const CENTER = new THREE.Vector3(0, 1.4, -0.5);
+  const CAM_DIR = new THREE.Vector3(1, 0.72, 1).normalize();
+  const ROOM_R = 11.5;
+  const camera = new THREE.PerspectiveCamera(20, 1, 1, 250);
+  let viewTarget = CENTER.clone();
+  function setCamera() {
     const w = container.clientWidth || 1;
     const h = container.clientHeight || 1;
     const aspect = w / h;
-    // Fit the room on any shape of screen (portrait phones included).
-    const halfH = Math.max(10, 12 / Math.max(aspect, 0.34));
-    camera.top = halfH;
-    camera.bottom = -halfH;
-    camera.left = -halfH * aspect;
-    camera.right = halfH * aspect;
-    camera.zoom = aspect < 0.8 ? 1.25 : 1; // zoom in a bit on portrait
+    const portrait = aspect < 0.8;
+    camera.aspect = aspect;
+    const vFOV = THREE.MathUtils.degToRad(camera.fov);
+    const hFOV = 2 * Math.atan(Math.tan(vFOV / 2) * aspect);
+    // Pull back far enough to frame the room on any aspect (portrait included).
+    const dist =
+      Math.max(ROOM_R / Math.sin(vFOV / 2), ROOM_R / Math.sin(hFOV / 2)) * (portrait ? 0.85 : 0.92);
+    viewTarget = CENTER.clone();
+    if (portrait) viewTarget.y -= 2.6; // aim lower so the room sits above the bottom panel
+    camera.position.copy(CAM_DIR).multiplyScalar(dist).add(viewTarget);
+    camera.near = Math.max(1, dist - 40);
+    camera.far = dist + 80;
     camera.updateProjectionMatrix();
-  };
-  camera.position.set(16, 15, 16);
-  setFrustum();
+    return dist;
+  }
+  const camDist = setCamera();
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -70,9 +79,10 @@ export function createOffice(container) {
   controls.enablePan = false;
   controls.minPolarAngle = 0.5;
   controls.maxPolarAngle = 1.15;
-  controls.minZoom = 0.6;
-  controls.maxZoom = 3;
-  controls.target.set(0, 1, -0.5);
+  controls.minDistance = camDist * 0.55;
+  controls.maxDistance = camDist * 1.7;
+  controls.target.copy(viewTarget);
+  controls.update();
   controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_ROTATE };
 
   // ---- post-processing: subtle bloom on the glows (eyes, hologram) ----
@@ -83,14 +93,12 @@ export function createOffice(container) {
     new THREE.WebGLRenderTarget(w0, h0, { samples: 4, type: THREE.HalfFloatType }),
   );
   composer.addPass(new RenderPass(scene, camera));
+  // Real optical depth-of-field: depth-based bokeh, focused on the room center.
+  const bokeh = new BokehPass(scene, camera, { focus: camDist, aperture: 0.00012, maxblur: 0.005 });
+  composer.addPass(bokeh);
   const bloom = new UnrealBloomPass(new THREE.Vector2(w0, h0), 0.32, 0.4, 1.0);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
-  // Tilt-shift depth-of-field: keeps the middle of the room sharp and softly
-  // blurs the near/far edges, for that miniature "product render" look.
-  const tilt = new ShaderPass(TiltShiftShader);
-  tilt.uniforms.uTexel.value.set(1 / w0, 1 / h0);
-  composer.addPass(tilt);
 
   // soft contact-shadow blob that sits under each agent
   const shadowTex = makeBlobTexture();
@@ -277,6 +285,7 @@ export function createOffice(container) {
     }
 
     controls.update();
+    bokeh.uniforms.focus.value = camera.position.distanceTo(controls.target);
     composer.render();
     labelRenderer.render(scene, camera);
     requestAnimationFrame(animate);
@@ -289,9 +298,10 @@ export function createOffice(container) {
     renderer.setSize(w, h);
     composer.setSize(w, h);
     bloom.setSize(w, h);
-    tilt.uniforms.uTexel.value.set(1 / w, 1 / h);
     labelRenderer.setSize(w, h);
-    setFrustum();
+    setCamera();
+    controls.target.copy(viewTarget);
+    controls.update();
   }
   window.addEventListener("resize", resize);
   // observe container size (mobile panels can change stage size without a window resize)
@@ -410,32 +420,6 @@ function makeStudioEnv() {
   return s;
 }
 
-// Screen-space tilt-shift: sharp focus band, soft blur toward the top & bottom.
-const TiltShiftShader = {
-  uniforms: {
-    tDiffuse: { value: null },
-    uTexel: { value: new THREE.Vector2(1 / 1024, 1 / 1024) },
-    uFocus: { value: 0.6 },
-    uStrength: { value: 2.2 },
-  },
-  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
-  fragmentShader: `
-    uniform sampler2D tDiffuse; uniform vec2 uTexel; uniform float uFocus; uniform float uStrength;
-    varying vec2 vUv;
-    void main(){
-      float d = clamp((abs(vUv.y - uFocus) - 0.14) / 0.42, 0.0, 1.0);
-      float b = d * d * uStrength;
-      float o1 = 1.384 * b, o2 = 3.230 * b;
-      vec4 sum = texture2D(tDiffuse, vUv) * 0.227;
-      sum += texture2D(tDiffuse, vUv + vec2(0.0, uTexel.y * o1)) * 0.316;
-      sum += texture2D(tDiffuse, vUv - vec2(0.0, uTexel.y * o1)) * 0.316;
-      sum += texture2D(tDiffuse, vUv + vec2(0.0, uTexel.y * o2)) * 0.070;
-      sum += texture2D(tDiffuse, vUv - vec2(0.0, uTexel.y * o2)) * 0.070;
-      gl_FragColor = sum;
-    }
-  `,
-};
-
 function makeBlobTexture() {
   const s = 128;
   const c = document.createElement("canvas");
@@ -470,11 +454,30 @@ function mkLabelChild(obj, x, y, z) {
 }
 
 function buildRoom(scene) {
-  const white = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.32, metalness: 0.0, envMapIntensity: 1.0 });
-  const floor = new THREE.Mesh(new THREE.BoxGeometry(19, 0.4, 15), white);
-  floor.position.set(0, -0.2, -0.5);
-  floor.receiveShadow = true;
-  scene.add(floor);
+  // Base white floor slab (also catches the soft directional shadow).
+  const white = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.5, metalness: 0.0, envMapIntensity: 0.8 });
+  const slab = new THREE.Mesh(new THREE.BoxGeometry(19, 0.4, 15), white);
+  slab.position.set(0, -0.2, -0.5);
+  slab.receiveShadow = true;
+  scene.add(slab);
+
+  // Real mirror reflection of the characters, blended ~32% over the white floor
+  // (patch the Reflector shader to be semi-transparent so the floor stays light).
+  const isSmall = (window.innerWidth || 1024) < 820;
+  const reflector = new Reflector(new THREE.PlaneGeometry(19, 15), {
+    textureWidth: isSmall ? 512 : 1024,
+    textureHeight: isSmall ? 512 : 1024,
+    color: 0xffffff,
+  });
+  reflector.material.transparent = true;
+  reflector.material.fragmentShader = reflector.material.fragmentShader.replace(
+    "gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );",
+    "gl_FragColor = vec4( blendOverlay( base.rgb, color ), 0.32 );",
+  );
+  reflector.material.needsUpdate = true;
+  reflector.rotation.x = -Math.PI / 2;
+  reflector.position.set(0, 0.006, -0.5);
+  scene.add(reflector);
 
   const wallMat = new THREE.MeshStandardMaterial({ color: 0xecebe4, roughness: 1 });
   const backWall = new THREE.Mesh(new THREE.BoxGeometry(19, 8, 0.3), wallMat);
